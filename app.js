@@ -3,8 +3,9 @@ const ulElement = document.getElementById('ulElement');
 const textList = document.getElementById('textList');
 const buttonDone = document.getElementById('done');
 const buttonUnDone = document.getElementById('unDone');
-const two = document.getElementsByClassName('two');
-const one = document.getElementsByClassName('one');
+const field = document.getElementById('field');
+const circle = document.getElementById('circle');
+const word = document.getElementById('word');
 let filterValue = 'unDone';
 const filterMap = {
     done: '1',
@@ -14,6 +15,7 @@ const filterMap = {
 const creatTaskInput = (text) => {
     const input = document.createElement('input');
     input.value = text;
+    input.classList.add('buttonLeft');
     
     return input;
 } //Эта функция создает поле ввода в котором после появляется задача
@@ -21,6 +23,7 @@ const creatTaskInput = (text) => {
 const createDiv = (text) => {
     const div = document.createElement('div');
     div.innerHTML = text;
+    div.classList.add('buttonLeft');
 
     return div;
 }// Эта функция создает див
@@ -39,6 +42,7 @@ const creatTaskButton = (nameButton, onclickHendler, id) => {
 const createTask = (task) => {
     const { text, id, done } = task;
     const li = document.createElement('li');
+    li.classList.add('tuskStyle');
     li.id = id
 
     const buttonDone= creatTaskButton('<img src="icon/checkIcon.png">', doneLi, id);
@@ -59,9 +63,7 @@ const createTask = (task) => {
     return li;
 } // эта функция создает задачу, в ней создается ЛИ элемент, кнопка, поле ввода
 
-async function changeFilterTask(event){
-    filterValue = event.currentTarget.id;
-    changeColorButton(filterValue);
+async function changeFilterTask(){
     const data = await getAll();
     redrowAllTasks(data);
 } // эта функция меняет переменную фильтр на то значние которое пришло с нажатой кнопки
@@ -73,18 +75,11 @@ const filterTask = (data) => {
             filteredTasks[key] = data[key];
         } 
     }
+
+    console.log(filteredTasks);
     return filteredTasks;
 } // фильтрует БД и записывает в объект нудные задачи
 
-const changeColorButton = (filterValue) => {
-    if(filterValue == 'unDone') {
-        buttonUnDone.style.border = '2px solid red';
-        buttonDone.style.border = '2px solid gray';
-    } else if (filterValue == 'done') {
-        buttonDone.style.border = '2px solid red';
-        buttonUnDone.style.border = '2px solid gray';
-    }
-}
 
 const drawAllTasks = (data) => {
     const filteredTasks = filterTask(data);
@@ -206,7 +201,6 @@ async function getAll(){
 async function startApp() {
     const data = await getAll();
     drawAllTasks(data);
-    changeColorButton(filterValue);
 } // функция на кнопке, добавляет задачу
 
 async function deleteLi (id) {
@@ -237,13 +231,30 @@ const changeTask = (id) => {
     }
 }
 
-const pos = () => {
-    if(two[0].style.left === '200px') {
-      two[0].style.left = '0';
-      one[0].style.background='#24fc90';
+async function pos() {
+    const data = await getAll();
+    if(circle.style.left === '100px') {
+      circle.style.left = '0';
+      filterValue = 'unDone';
+      redrowAllTasks(data);
+      setTimeout(() => { 
+        field.style.background='#24fc90';
+        circle.style.background='#18ad63';
+        word.innerHTML='DONE';
+        word.style.color='#18ad63';
+        word.style.left='70px';
+      }, 100);
     } else {
-      two[0].style.left = '200px';
-      one[0].style.background='gray';
+      circle.style.left = '100px';
+      filterValue = 'done';
+      redrowAllTasks(data);
+      setTimeout(() => { 
+        field.style.background='rgb(150, 150, 150)';
+        circle.style.background='rgb(60, 60, 60)';
+        word.innerHTML='UNDONE';
+        word.style.color='rgb(60, 60, 60)';
+        word.style.left='3px'
+      }, 100);
     }
 }
 
@@ -251,8 +262,6 @@ const pos = () => {
 
 startApp();
 
-buttonDone.onclick = (event) => changeFilterTask(event);
-buttonUnDone.onclick = (event) => changeFilterTask(event);
 elementUser.addEventListener('click', addNewTusk);
-one[0].addEventListener('click',pos);
+circle.addEventListener('click',pos);
 

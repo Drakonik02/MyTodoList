@@ -20,6 +20,8 @@ body {
 
 h1 {
     color: white;
+    display: flex;
+    justify-content: center;
 }
 
 img {
@@ -38,23 +40,57 @@ button {
     justify-content: center;
 }
 
-.one {
+.field {
   height: 35px;
-  width: 235px;
+  width: 135px;
   border-radius: 25px;
-  background-color: #24fc90;
+  background-color: #40fa9d;
   position: absolute;
-  background: #24fc90;
+  background: #5fffaf;
   transition: background 1s;
 }
 
-.two {
+.circle {
   height: 33px;
   width: 33px;
   border-radius: 50%;
-  background-color: white;
+  background: #18ad63;
   margin: 1px 0 0 1px;
   position: absolute;
   left: 0;
-  transition: left  1s;
+  transition: 1s;
+  z-index:2;
+}
+
+.word {
+    margin: 10px;
+    position: absolute;
+    left: 70px;
+    color: #18ad63;
+    font-size: 12px;
+    transition: 1s;
+}
+
+#tasksFilter {
+    height: 35px;
+}
+
+.tuskStyle {
+    display: flex;
+    border: 1px solid red;
+    background-color: rgba(219, 0, 255, 0.50);
+    mix-blend-mode: soft-light;
+    width: 500px;
+    margin:2px;
+
+}
+
+.buttonLeft {
+    width: 426px;
+}
+
+#ulElement {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
